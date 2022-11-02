@@ -28,8 +28,8 @@ function Sidebar() {
 
         {
             playlists?.items?.map((playlist) => (
-                <SidebarOpion title={playlist.name}/>
-            )) 
+                <SidebarOpion option={playlist.name} />
+              )) 
         }
     </SidebarContainer>
   )
