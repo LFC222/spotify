@@ -16,7 +16,7 @@ function Sidebar() {
   return (
     <SidebarContainer>
        <LogoSidebar 
-            src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoN-_h9cxRRk5xus-dcEb8PU6KFOpDeZ5NaQ&usqp=CAU' 
+            src='https://getheavy.com/wp-content/uploads/2019/12/spotify2019-830x350.jpg' 
             alt=''
         />
         <SidebarOpion Icon={HomeIcon} title="Home"/>
@@ -26,11 +26,9 @@ function Sidebar() {
         <SidebarTitle>PLAYLISTS</SidebarTitle>
         <hr/>
 
-        {
-            playlists?.items?.map((playlist) => (
-                <SidebarOpion option={playlist.name} />
-              )) 
-        }
+        {playlists?.items?.map((playlist) => (
+        <SidebarOpion option={playlist.name} />
+      ))}
     </SidebarContainer>
   )
 }

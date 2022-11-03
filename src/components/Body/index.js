@@ -15,8 +15,45 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 
 function Body({ spotify }) {
+  const [{ discover_weekly }, dispatch] = useDataLayerValue();
 
-  const [{discover_weekly}, dispatch] = useDataLayerValue();
+  const playPlaylist = (id) => {
+    spotify
+      .play({
+        context_uri: `spotify:playlist:37i9dQZEVXcJZyENOWUFo7`,
+      })
+      .then((res) => {
+        spotify.getMyCurrentPlayingTrack().then((r) => {
+          dispatch({
+            type: "SET_ITEM",
+            item: r.item,
+          });
+          dispatch({
+            type: "SET_PLAYING",
+            playing: true,
+          });
+        });
+      });
+  };
+
+  const playSong = (id) => {
+    spotify
+      .play({
+        uris: [`spotify:track:${id}`],
+      })
+      .then((res) => {
+        spotify.getMyCurrentPlayingTrack().then((r) => {
+          dispatch({
+            type: "SET_ITEM",
+            item: r.item,
+          });
+          dispatch({
+            type: "SET_PLAYING",
+            playing: true,
+          });
+        });
+      });
+  };
 
   return (
     <BodyArea>
@@ -36,7 +73,9 @@ function Body({ spotify }) {
 
       <BodySongs>
         <BodyIcons>
-          <PlayCircleFilled/>
+          <PlayCircleFilled
+            onClick={playPlaylist}
+          />
           <FavoriteIcon fontSize='large'/>
           <MoreHorizIcon/>
         </BodyIcons>
@@ -45,7 +84,7 @@ function Body({ spotify }) {
 
         {
           discover_weekly?.tracks.items.map(item => (
-            <SongRow track={item.track} />
+            <SongRow playSong={playSong} track={item.track} />
           ))
         }
       </BodySongs>

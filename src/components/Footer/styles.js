@@ -107,6 +107,14 @@ export const PlayCircle = styled(PlayCircleOutlineIcon)`
     }
 `;
 
+export const PauseCircle = styled(PauseCircleOutlineIcon)`
+    
+    &:hover{
+        transition: transform 0.2s ease-in-out;
+        transform: scale(1.2) !important;
+    }
+`;
+
 export const ContinuosSlider = styled(Slider)`
 
 `;

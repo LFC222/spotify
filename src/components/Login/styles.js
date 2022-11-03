@@ -7,7 +7,7 @@ export  const LoginContainer = styled.div`
     background-color:black;
     
     img{
-        width:100%;
+        height:200px;
     }
 
     a{

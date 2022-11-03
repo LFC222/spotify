@@ -10,7 +10,7 @@ function Login() {
     <LoginContainer>
       <h1>Login Page</h1>
       <img 
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoN-_h9cxRRk5xus-dcEb8PU6KFOpDeZ5NaQ&usqp=CAU" 
+        src="https://getheavy.com/wp-content/uploads/2019/12/spotify2019-830x350.jpg" 
         alt=''
       />
       <a href={accessUrl}>Login with spotify</a>

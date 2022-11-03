@@ -1,12 +1,13 @@
 import { Grid, Slider } from '@material-ui/core'
 import PlaylistPlayIcon from "@material-ui/icons/PlaylistPlay";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import 
 {
   SongInfo,
   Repeat,
   Shuffle,
+  PauseCircle,
   SkipNext,
   PlayCircle,
   SkipPrevious,
@@ -16,28 +17,110 @@ import
   FooterCenter,
   FooterRight,
 } from './styles'
+import {useDataLayerValue} from '../../DataLayer';
 
-function Footer() {
+function Footer({spotify}) {
+  const [{token, item, playing}, dispatch] = useDataLayerValue();
+
+/*   useEffect(() => {
+    spotify.getMyCurrentPlaybackState().then((r) => {
+      console.log(r);
+
+      dispatch({
+        type: "SET_PLAYING",
+        playing: r.is_playing,
+      });
+
+      dispatch({
+        type: "SET_ITEM",
+        item: r.item,
+      });
+    });
+  }, [spotify]);*/
+
+  const handlePlayPause = () => {
+    if (playing) {
+      spotify.pause();
+      dispatch({
+        type: "SET_PLAYING",
+        playing: false,
+      });
+    } else {
+      spotify.play();
+      dispatch({
+        type: "SET_PLAYING",
+        playing: true,
+      });
+    }
+  };
+
+  const skipNext = () => {
+    spotify.skipToNext();
+    spotify.getMyCurrentPlayingTrack().then((r) => {
+      dispatch({
+        type: "SET_ITEM",
+        item: r.item,
+      });
+      dispatch({
+        type: "SET_PLAYING",
+        playing: true,
+      });
+    });
+  };
+
+  const skipPrevious = () => {
+    spotify.skipToPrevious();
+    spotify.getMyCurrentPlayingTrack().then((r) => {
+      dispatch({
+        type: "SET_ITEM",
+        item: r.item,
+      });
+      dispatch({
+        type: "SET_PLAYING",
+        playing: true,
+      });
+    });
+  };
+
   return (
     <FooterArea>
       <FooterLeft>
         <AlbumLogo 
-          src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-WSBkknH3ZN3MxBgImW2hw4SP5PuFiPA8sg&usqp=CAU' 
-          alt='usher'
+          src= {item?.album.images[0].url} 
+          alt= {item?.name}
         />
-        <SongInfo>
-          <h4>Yeah!</h4>
-          <p>Usher</p>
-        </SongInfo>
+        {
+          item ? (
+            <SongInfo>
+              <h4>{item.name}</h4>
+              <p>{item.artists.map((artist) => artist.name).join(", ")}</p>
+            </SongInfo>
+          ) : (
+            <SongInfo>
+              <h4>No song is playing</h4>
+              <p>...</p>
+            </SongInfo>
+          )
+        }
       </FooterLeft>
 
       <FooterCenter>
           <Shuffle />
-          <SkipPrevious />
-          <PlayCircle 
-            fontSize='large'
-          />
-          <SkipNext />
+          <SkipPrevious onClick={skipNext}/>
+          {
+            playing ? (
+              <PauseCircle
+              onClick={handlePlayPause}
+              fontSize='large'
+            />
+            ) : (
+              <PlayCircle
+                onClick={handlePlayPause}
+                fontSize ='large'
+              />
+            )
+          }
+          <SkipNext onClick={skipPrevious}/>
           <Repeat />
       </FooterCenter>
 

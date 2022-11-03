@@ -20,6 +20,7 @@ export const LogoSidebar = styled.img`
     height:70px;
     margin-right:auto;
     padding:10px;
+    object-fit:contain;
 `;
 
 export const SidebarTitle = styled.strong`
